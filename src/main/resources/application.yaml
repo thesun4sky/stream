@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: stream
+  cloud:
+    stream:
+      kafka:
+        streams:
+          binder:
+            deserializationExceptionHandler: logAndContinue
+            configuration:
+              commit.interval.ms: 100
+              key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+              value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+          bindings:
+            process-receiveLog-in-0:
+              consumer:
+                applicationId: receiveLog-stream
+      bindings:
+        process-receiveLog-in-0:
+          destination: receiveLog
+        process-receiveLog-out-0:
+          destination: receiveLogSet
+    function:
+      definition: process-receiveLog
